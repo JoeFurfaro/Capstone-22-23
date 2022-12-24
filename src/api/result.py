@@ -6,24 +6,28 @@ class Object:
     an image. Objects have a class, a confidence %, and a location
     associated with them
     """
-    def __init__(self, className, confidence, location):
+    def __init__(self, className, confidence, color, location):
         """Initializes a new object
 
         className : a string that is the name of a supported object class
         confidence : a float between 0.0 and 100.0 representing the classification confidence
+        color : the color of bounding box used to identify the object in the postprocessed image
+            represented as a HEX string eg. #00FF00
         location : a tuple of integers (x, y, width, height) in pixels representing the
             bounding box around the classification
         """
         self.className = className
         self.confidence = confidence
         self.location = location
+        self.color = color
 
     def json(self):
         """Exports the object as a dictionary
         """
         return {
             "className": self.className,
-            "confience": self.confidence,
+            "confidence": self.confidence,
+            "color": self.color,
             "location": {
                 "x": self.location[0],
                 "y": self.location[1],
@@ -52,14 +56,14 @@ class Result:
         """Exports the result as a dictionary
         """
         bufferedOriginal = BytesIO()
-        self.original.save(bufferedOriginal, format="JPEG")
+        self.original.save(bufferedOriginal, format="PNG")
         originalB64 = base64.b64encode(bufferedOriginal.getvalue())
         bufferedPostProcessed = BytesIO()
-        self.postProcessed.save(bufferedPostProcessed, format="JPEG")
+        self.postProcessed.save(bufferedPostProcessed, format="PNG")
         postProcessedB64 = base64.b64encode(bufferedPostProcessed.getvalue())
 
         return {
-            "original": "data:image/jpeg;base64, " + originalB64.decode("utf-8"),
-            "postProcessed": "data:image/jpeg;base64, " + postProcessedB64.decode("utf-8"),
-            "anotations": [a.json for a in self.annotations]
+            "original": "data:image/png;base64, " + originalB64.decode("utf-8"),
+            "postProcessed": "data:image/png;base64, " + postProcessedB64.decode("utf-8"),
+            "annotations": [a.json() for a in self.annotations]
         }

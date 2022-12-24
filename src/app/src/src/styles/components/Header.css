@@ -1,0 +1,11 @@
+.nav-link:hover {
+    color: #888;
+}
+
+.nav-link {
+    display: block;
+}
+
+.nav-item-wrapper {
+    width: auto !important;
+}

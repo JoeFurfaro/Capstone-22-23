@@ -1,0 +1,15 @@
+.person-linkedin {
+    color: #0077B5;
+}
+
+.person-github {
+    color: black;
+}
+
+.person-github, .person-linkedin {
+    font-size: 24pt;
+}
+
+.person-linkedin:hover, .person-github:hover {
+    color: gray;
+}

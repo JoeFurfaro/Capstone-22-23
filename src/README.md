@@ -13,7 +13,7 @@ One of our goals for this project was to learn new projects, frameworks, and arc
 - *Main app*: The main app (`app/src/`) will be implemented using the frontend framework Svelte (tbd), which combines JavaScript, HTML, and CSS
 
 ### Backend Systems
-- *App server*: The app-serving microservice (`app/serve/`) will be implemented using Node JS and Expres
+- *App server*: The app-serving microservice (`app/serve/`) will be implemented using Node JS and Express
 - *API processing server*: The processing microservice `api/` will be implemented using Flask, a common Python web microservice framework, and will perform the main ML data processing
 
 ### Composition

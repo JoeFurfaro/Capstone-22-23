@@ -3,8 +3,14 @@ services:
   api:
     build: ./api
     ports:
-      - "9001:5000"
+      - "5000:5000"
   app:
     build: ./app
     ports:
-      - "9002:8080"
+      - "8080:8080"
+  serve:
+    build: ./serve
+    ports:
+      - "80:80"
+
+  

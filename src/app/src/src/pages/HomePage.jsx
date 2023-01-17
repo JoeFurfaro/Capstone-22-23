@@ -59,9 +59,9 @@ const HomePage = () => {
             <div className="relative z-10 h-2 w-20 border-t-4 border-white mx-auto lg:mt-24 mt-12"></div>
             <h1 className="relative z-10 tracking-wide text-white text-center text-2xl xl:text-4xl md:text-3xl font-bold mt-4 lg:mt-10 2xl:text-4xl">OUR TEAM</h1>
             <div className="relative z-10 container mx-auto mt-12 lg:mt-16 flex lg:flex-row flex-col gap-4 xl:gap-16">
-              <PersonCard image={joe} name="Joe Furfaro" program="Computer Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
-              <PersonCard image={tinson} name="Tinson Chen" program="Arts & Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
-              <PersonCard image={nihal} name="Nihal Azavedo" program="Computer Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
+              <PersonCard image={joe} name="Joe Furfaro" program="Computer Science" linkedin="https://www.linkedin.com/in/joe-furfaro/" github="https://github.com/JoeFurfaro" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
+              <PersonCard image={tinson} name="Tinson Chen" program="Arts & Science" linkedin="https://www.linkedin.com/in/tinson-chen-763769231/" github="https://github.com/strfsh-jstr" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
+              <PersonCard image={nihal} name="Nihal Azavedo" program="Computer Science" linkedin="https://www.linkedin.com/in/nihal-azavedo/" github="https://github.com/NihalAzavedo" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
             </div>
             <div className="relative z-10 h-2 w-20 border-t-4 border-slate-700 sm:border-white mx-auto lg:mt-24 mt-12"></div>
             <h1 className="relative z-10 tracking-wide sm:text-white text-slate-700 text-center text-2xl xl:text-4xl md:text-3xl font-bold mt-4 lg:mt-10">INTERACTIVE AI DEMO</h1>

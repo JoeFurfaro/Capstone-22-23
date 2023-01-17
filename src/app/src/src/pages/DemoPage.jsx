@@ -29,7 +29,7 @@ const DemoPage = () => {
     const startAnalyzing = (image) => {
         setUploadImage(image);
 
-        axios.post(`http://localhost:9001/process`, {image:image})
+        axios.post(`/process`, {image:image})
             .then(res => {
                 const response = res.data;
                 setResultImage(response.postProcessed);

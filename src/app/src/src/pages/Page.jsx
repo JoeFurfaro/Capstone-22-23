@@ -1,23 +1,16 @@
-import {useEffect} from "react";
-import Header from "../components/Header";
-import "../styles/pages/Page.css";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-const Page = ({children, title, slug}) => {
-
-    useEffect(() => {
-        document.title = title;
-    }, []);
-
-    return (<>
-        <div className="container-fluid">
-            <Header activeSlug={slug} />
-            <div className="row mt-5">
-                <div className="col-10 mx-auto">
-                    {children}
-                </div>
+const Page = ({children}) => {
+    return (
+        <>
+            <Navbar />
+            <div className="w-full lg:pt-32 bg-slate-100 min-h-screen absolute top-0 z-0 flex flex-col">
+                {children}
+                <Footer />
             </div>
-        </div>
-    </>);
+        </>
+    );
 }
 
 export default Page;

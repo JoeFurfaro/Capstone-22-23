@@ -1,114 +1,77 @@
-import Page from "./Page";
-import homeImage from "../assets/homeImage.jpg";
-import person from "../assets/person.png";
-import joe from "../assets/joe.jpg";
-import tinson from "../assets/tinson.jpg";
-
-import "../styles/pages/HomePage.css";
-
-import supportedClasses from "../data/supportedClasses";
+import Page from './Page';
+import team from "../images/team.jpg";
+import joe from "../images/joe.jpg";
+import tinson from "../images/tinson.jpg";
+import nihal from "../images/nihal.jpg";
+import lofiSample from "../images/lofi-sample.png";
+import Button from '../components/Button';
+import PersonCard from '../components/PersonCard';
+import LofiScreen from '../components/LofiScreen';
+import { useLayoutEffect, useState } from 'react';
 
 const HomePage = () => {
-
-    const welcomeMessage = "Cras eget arcu mollis, facilisis odio eu, fringilla sem. Pellentesque at vulputate dolor. Vivamus felis odio, auctor id placerat sed, feugiat in nisi. Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat enim. Sed et dolor commodo, aliquet nibh non, volutpat eros. Praesent vestibulum auctor nisi, non ultricies sapien rutrum sagittis. Nullam pellentesque, ipsum sit amet iaculis molestie, augue purus facilisis lacus, sed consequat lectus augue ac nibh. Praesent viverra libero eget tellus commodo placerat. Suspendisse urna nisl, condimentum sed sollicitudin ac, malesuada a erat. Pellentesque vel nunc pretium, aliquet ante luctus, condimentum metus. Nam sed mauris ornare, pulvinar eros tempor, efficitur erat. Aliquam et velit semper, molestie tortor id, consectetur sapien. Praesent venenatis tortor id felis blandit venenatis. Nunc in sapien quis tortor sagittis commodo sit amet sit amet sem. Quisque nec neque mauris.";
-    const people = [
-        {
-            name: "Nihal Azavedo",
-            linkedin: "https://www.linkedin.com/in/nihal-azavedo/",
-            github: "https://github.com/NihalAzavedo",
-            image: person,
-            description: "Cras eget arcu mollis, facilisis odio eu, fringilla sem. Pellentesque at vulputate dolor. Vivamus felis odio, auctor id placerat sed, feugiat in nisi. Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat.",
-        },
-        {
-            name: "Tinson Chen",
-            linkedin: "https://www.linkedin.com/in/tinson-chen-763769231/",
-            github: "https://github.com/strfsh-jstr",
-            image: tinson,
-            description: "Cras eget arcu mollis, facilisis odio eu, fringilla sem. Pellentesque at vulputate dolor. Vivamus felis odio, auctor id placerat sed, feugiat in nisi. Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat.",
-        },
-        {
-            name: "Joe Furfaro",
-            linkedin: "https://www.linkedin.com/in/joe-furfaro/",
-            github: "https://github.com/JoeFurfaro",
-            image: joe,
-            description: "Cras eget arcu mollis, facilisis odio eu, fringilla sem. Pellentesque at vulputate dolor. Vivamus felis odio, auctor id placerat sed, feugiat in nisi. Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat.",
+    const AngledBackgroundPattern = () => {
+        const useWindowSize = () => {
+          const [size, setSize] = useState([0, 0]);
+          useLayoutEffect(() => {
+            function updateSize() {
+              setSize([window.innerWidth, window.innerHeight]);
+            }
+            window.addEventListener('resize', updateSize);
+            updateSize();
+            return () => window.removeEventListener('resize', updateSize);
+          }, []);
+          return size;
         }
-    ];
+  
+        const [width, _] = useWindowSize();
+  
+        const svgHeight = 2250;
 
-    const SectionTitle = ({title}) => {
-        return <div className="row">
-            <div className="col-12">
-                <h3 className="text-center fw-bold">{title}</h3>
-            </div>
-        </div>
+        return (
+          <svg className="z-0 absolute w-full mt-24" height={svgHeight + "px"} xmlns="http://www.w3.org/2000/svg">
+            <linearGradient id="bg-grad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#86113E" />
+                <stop offset="100%" stopColor="#861165" />
+            </linearGradient>
+            <polygon points={`0,0 ${width},250 ${width},${svgHeight} 0,${svgHeight-250}`} fill="url(#bg-grad)" />
+          </svg>
+        );
     }
 
-    return <Page title="Capstone 22-23 - Home" slug="home">
-        <div className="row">
-            <div className="col-9 mx-auto">
-                <div className="row">
-                    <div className="ms-auto col-7">
-                        <h3 className="fw-bold">Welcome to Our Project Page!</h3>
-                        <p className="mt-3">{welcomeMessage}</p>
-                    </div>
-                    <div className="me-auto col-5">
-                        <img alt="TODO" className="w-100 rounded" src={homeImage} />
-                    </div>
-                </div>
+    return (
+        <Page>
+            <AngledBackgroundPattern />
+            <div className="mt-16 sm:mt-24 lg:mt-0 relative z-10 container mx-auto sm:rounded-lg bg-white lg:flex-row flex-col-reverse flex shadow-xl">
+              <div className="w-full lg:w-6/12 px-12 2xl:px-20 xl:px-16 py-12 rounded-l-lg flex flex-col place-content-center">
+                  <h1 className="text-xl md:text-2xl xl:text-3xl 2xl:text-4xl text-slate-800 font-bold tracking-wider">WELCOME TO OUR PROJECT</h1>
+                  <p className="2xl:mt-8 mt-4 leading-7 text-slate-700 mb-7 2xl:mb-10">
+                  Cras eget arcu mollis, facilisis odio eu, fringilla sem. Pellentesque at vulputate dolor. Vivamus felis odio, auctor id placerat sed, feugiat in nisi. Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat enim. Sed et dolor commodo, aliquet nibh non, volutpat eros.  Curabitur a lorem vitae tortor fermentum hendrerit. Maecenas at dui luctus, porta lectus in, consequat enim. Sed et dolor commodo, aliquet nibh non, volutpat eros.
+                  </p>
+                  <div>
+                    <Button text="Try It Out" href="/demo" icon="fa-circle-chevron-right" iconSide="right" />
+                  </div>
+              </div>
+              <div className="w-full lg:w-6/12 lg:rounded-r-lg">
+                  <img src={team} className="w-full lg:rounded-r-lg h-96 lg:h-auto object-cover lg:object-contain sm:rounded-t-lg lg:rounded-tl-none" />
+              </div>
             </div>
-        </div>
-        <hr className="mt-5 mb-5" />
-        <SectionTitle title="Our Team" />
-        <div className="row mt-4 justify-content-center">
-            <div className="col-9 mx-auto">
-                <div className="row">
-                    {people.map(p =>
-                        <div className="col-4" key={"person-" + p.name}>
-                            <div className="row">
-                                <div className="col-6 mx-auto">
-                                    <img src={p.image} className="w-100 rounded" alt={"Photograph of " + p.name} />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <h5 className="fw-bold text-center mt-4">{p.name}</h5>
-                                    <div className="row justify-content-center">
-                                        <div className="col-12 text-center">
-                                        {p.github === null ? null :
-                                            <a href={p.github} target="_blank"><i className="mx-1 person-github fa-brands fa-github"></i></a>
-                                        }
-                                        {p.linkedin === null ? null :
-                                            <a href={p.linkedin} target="_blank"><i className="mx-1 person-linkedin fa-brands fa-linkedin"></i></a>
-                                        }
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2 mb-5">
-                                        <div className="col-11 mx-auto">
-                                            <p className="text-center">{p.description}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
+            <div className="relative z-10 h-2 w-20 border-t-4 border-white mx-auto lg:mt-24 mt-12"></div>
+            <h1 className="relative z-10 tracking-wide text-white text-center text-2xl xl:text-4xl md:text-3xl font-bold mt-4 lg:mt-10 2xl:text-4xl">OUR TEAM</h1>
+            <div className="relative z-10 container mx-auto mt-12 lg:mt-16 flex lg:flex-row flex-col gap-4 xl:gap-16">
+              <PersonCard image={joe} name="Joe Furfaro" program="Computer Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
+              <PersonCard image={tinson} name="Tinson Chen" program="Arts & Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
+              <PersonCard image={nihal} name="Nihal Azavedo" program="Computer Science" linkedin="https://linkedin.com" github="https://github.com" description="Joe is a CS student who is passionate about large system design, robotics, and backend web development." />
             </div>
-        </div>
-        <hr className="mb-5" />
-        <SectionTitle title="Supported Object Classes" />
-        <div className="row mb-5 mt-5">
-            <div className="col-9 mx-auto">
-                <div className="row justify-content-center">
-                    {supportedClasses.map(c =>
-                        <div key={"supported-class-" + c.name} className="col-2 mx-3">
-                            <img src={c.img} className="w-100 rounded" />
-                            <h6 className="text-center mt-3 mb-5">{c.name}</h6>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    </Page>
+            <div className="relative z-10 h-2 w-20 border-t-4 border-slate-700 sm:border-white mx-auto lg:mt-24 mt-12"></div>
+            <h1 className="relative z-10 tracking-wide sm:text-white text-slate-700 text-center text-2xl xl:text-4xl md:text-3xl font-bold mt-4 lg:mt-10">INTERACTIVE AI DEMO</h1>
+            <LofiScreen>
+                <img className="mx-auto lg:w-6/12 xl:w-4/12 2xl:w-5/12 mb-6" src={lofiSample} />
+                <Button text="Try It Out" href="/demo" icon="fa-circle-chevron-right" iconSide="right" scheme="purple" />
+            </LofiScreen>
+            <div className="pt-24"></div>
+        </Page>
+    );
 }
 
 export default HomePage;

@@ -26,4 +26,6 @@ RUN cp -r ./src/build ./serve/build
 
 WORKDIR /usr/src/app/serve
 
+EXPOSE 8080
+
 CMD [ "node", "app.js" ]

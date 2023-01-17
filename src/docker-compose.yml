@@ -1,10 +1,10 @@
 version: "3.9"
 services:
-  alg:
+  api:
     build: ./api
     ports:
       - "9001:5000"
   app:
-    build: ./app/serve
+    build: ./app
     ports:
       - "9002:8080"

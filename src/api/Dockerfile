@@ -1,10 +1,9 @@
 FROM python:3.8-slim-buster
 
-WORKDIR /alg
+WORKDIR /api
 
-RUN pip3 install flask Pillow
+RUN pip3 install flask Pillow flask_cors
 
 COPY . .
 
-
-CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0" ]
+CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "-p", "5000" ]

@@ -16,7 +16,8 @@ import { useEffect, useState, useRef } from 'react';
 import Page from './Page';
 import UploadButton from '../components/UploadButton';
 import Button from '../components/Button';
-import { isCompositeComponent } from 'react-dom/test-utils';
+
+import axios from 'axios';
 
 const DemoPage = () => {
 
@@ -26,8 +27,15 @@ const DemoPage = () => {
     const [resultData, setResultData] = useState(null);
 
     const startAnalyzing = (image) => {
-        console.log(image);
         setUploadImage(image);
+
+        axios.post(`http://localhost:9001/process`, {image:image})
+            .then(res => {
+                const response = res.data;
+                setResultImage(response.postProcessed);
+                setResultData(response.annotations);
+            })
+
         setError(null);
     }
 
@@ -67,7 +75,6 @@ const DemoPage = () => {
                 let t = types[i];
                 listText += i == types.length - 1 ? t.name : t.name + ", ";
             }
-            console.log(listText);
 
             return (
                 <div className="w-full rounded-lg px-5 py-6 lg:py-4 bg-slate-100">
@@ -143,7 +150,6 @@ const DemoPage = () => {
         }
 
         const processUpload = (file) => {
-            console.log(file);
             if(file.type != "image/png" && file.type != "image/jpg" && file.type != "image/jpeg") {
                 setError("Invalid file format: try again using a PNG, JPG, or GIF file");
                 return;
@@ -223,11 +229,11 @@ const DemoPage = () => {
                 if(timePassed > delay) {
                     setResultImage(uploadImage);
                     // setResultData([]); // <---- Use this to test empty state!
-                    setResultData([
-                        {name: "Traffic light", color: "#1CF1FF", confidence: 79.9},
-                        {name: "Street sign", color: "#FF08C9", confidence: 97.2},
-                        {name: "Traffic light", color: "#36FF15", confidence: 84.0},
-                    ]);
+                    // setResultData([
+                    //     {name: "Traffic light", color: "#1CF1FF", confidence: 79.9},
+                    //     {name: "Street sign", color: "#FF08C9", confidence: 97.2},
+                    //     {name: "Traffic light", color: "#36FF15", confidence: 84.0},
+                    // ]);
                     clearInterval(barInterval);
                 }
                 setTimePassed(timePassed);
@@ -277,7 +283,7 @@ const DemoPage = () => {
     const Results = () => {
         return (
             <PostUploadPanel>
-                <h1 className="text-slate-800 text-2xl font-bold tracking-wider xl:text-3xl 2xl:text-4xl">{resultData.length} <span className="text-slate-500">OBJECTS DETECTED</span></h1>
+                <h1 className="text-slate-800 text-2xl font-bold tracking-wider xl:text-3xl 2xl:text-4xl">{resultData.length} {resultData.length > 1 ? <span className="text-slate-500">OBJECTS DETECTED</span> : <span className="text-slate-500">OBJECT DETECTED</span>}</h1>
                 <table className="mt-4 xl:mt-6">
                     <thead>
                         <tr>
@@ -294,7 +300,7 @@ const DemoPage = () => {
                                 <td className="py-3 border-b-2 border-b-gray-100">
                                     <div className="w-6 h-6 rounded-sm" style={{"background-color": o.color}}></div>
                                 </td>
-                                <td className="xl:text-lg py-3 border-b-2 border-b-gray-100 text-slate-800">{o.name}</td>
+                                <td className="xl:text-lg py-3 border-b-2 border-b-gray-100 text-slate-800">{o.className}</td>
                                 <td className="xl:text-lg text-slate-500 py-3 border-b-2 border-b-gray-100">{o.confidence}%</td>
                             </tr>
                         )}

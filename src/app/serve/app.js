@@ -1,17 +1,16 @@
-'use strict';
+const path = require("path");
+const express = require("express");
+const app = express(); // create express app
 
-const express = require('express');
+// add middlewares
+app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static("public"));
 
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
-
-// App
-const app = express();
-app.get('/', (req, res) => {
-  res.send('Hello World NodeJS');
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.listen(PORT, HOST, () => {
-  console.log(`Running on http://${HOST}:${PORT}`);
+// start express server on port 5000
+app.listen(8080, () => {
+  console.log("Server started on port 8080!");
 });

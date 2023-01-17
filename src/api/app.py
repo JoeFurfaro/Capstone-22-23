@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from imagenet import run
+from model import run
 from flask_cors import cross_origin
 import json
 from PIL import Image
@@ -8,12 +8,12 @@ import base64
 
 app = Flask(__name__)
 
-@app.route('/imagenet', methods=["POST", "GET"])
+@app.route('/process', methods=["POST"])
 @cross_origin()
 def runImageNet():
-    """Web endpoint for processing a single image using our ImageNet model,
+    """Web endpoint for processing a single image using our model,
     and returning a single result including the original image, a postprocessed
-    image, and a list of detected objects and their locations.
+    image, and a list of detected objects and their locations
     """
     image = request.json["image"]
     noPrefix = image.split(",")[1]

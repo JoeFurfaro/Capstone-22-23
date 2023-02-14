@@ -1,10 +1,14 @@
-FROM python:3.8-slim-buster
+FROM tensorflow/tensorflow
 
-WORKDIR /api
-
-RUN pip3 install flask Pillow flask_cors
 
 COPY . .
+
+RUN apt update
+RUN apt install python3 python3-pip -y
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pillow
+RUN pip3 install flask Pillow flask_cors numpy
+
 
 EXPOSE 5000
 

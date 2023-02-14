@@ -2,6 +2,8 @@ import supportedBus from '../images/supported/bus.png';
 import supportedMinivan from '../images/supported/minivan.png';
 import supportedManhole from '../images/supported/manhole.png';
 import supportedMountainBike from '../images/supported/mountainBike.png';
+import supportedTrain from '../images/supported/train.png';
+import supportedPickup from '../images/supported/pickup.png';
 import supportedParkBench from '../images/supported/parkBench.png';
 import supportedPoliceCar from '../images/supported/policeCar.png';
 import supportedRV from '../images/supported/rv.png';
@@ -10,6 +12,8 @@ import supportedTaxi from '../images/supported/taxi.png';
 import supportedTrafficLight from '../images/supported/trafficLight.png';
 
 import preset1 from '../images/presets/preset1.jpg';
+import preset2 from '../images/presets/preset2.jpg';
+import preset3 from '../images/presets/preset3.jpg';
 
 import { useEffect, useState, useRef } from 'react';
 
@@ -58,16 +62,18 @@ const DemoPage = () => {
 
         const SupportedObjects = () => {
             const types = [
-                {name: "R.V.", image: supportedRV},
-                {name: "Street sign", image: supportedStreetSign},
-                {name: "School bus", image: supportedBus},
-                {name: "Mountain bike", image: supportedMountainBike},
-                {name: "Taxi", image: supportedTaxi},
-                {name: "Minivan", image: supportedMinivan},
-                {name: "Traffic light", image: supportedTrafficLight},
-                {name: "Park bench", image: supportedParkBench},
-                {name: "Police car", image: supportedPoliceCar},
-                {name: "Manhole cover", image: supportedManhole},
+                // {name: "R.V.", image: supportedRV},
+                // {name: "Street sign", image: supportedStreetSign},
+                // {name: "School bus", image: supportedBus},
+                {name: "Bike", image: supportedMountainBike},
+                {name: "Train", image: supportedTrain},
+                {name: "Pickup Truck", image: supportedPickup},
+                // {name: "Taxi", image: supportedTaxi},
+                // {name: "Minivan", image: supportedMinivan},
+                // {name: "Traffic light", image: supportedTrafficLight},
+                // {name: "Park bench", image: supportedParkBench},
+                // {name: "Police car", image: supportedPoliceCar},
+                // {name: "Manhole cover", image: supportedManhole},
             ];
 
             let listText = "";
@@ -86,7 +92,7 @@ const DemoPage = () => {
                     </h3>
                     <div className="mt-3 flex-wrap hidden lg:flex">
                         {types.map((t, index) =>
-                            <div key={"so-" + index} className={"px-2 py-2 w-6/12 odd:border-r-2 odd:border-r-slate-200 flex items-center " + (index < types.length - 2 ? "border-b-2 border-b-slate-200" : "")}>
+                            <div key={"so-" + index} className={"px-2 py-2 w-full flex items-center " + (index < types.length - 1 ? "border-b-2 border-b-slate-200" : "")}>
                                 <div className="w-12 2xl:w-14">
                                     <img src={t.image} className="w-full" />
                                 </div>
@@ -115,14 +121,8 @@ const DemoPage = () => {
         const Presets = () => {
             const presets = [
                 preset1,
-                preset1,
-                preset1,
-                preset1,
-                preset1,
-                preset1,
-                preset1,
-                preset1,
-                preset1,
+                preset2,
+                preset3,
             ];
 
             return (
@@ -214,7 +214,6 @@ const DemoPage = () => {
         const [timePassed, setTimePassed] = useState(0);
 
         useEffect(() => {
-            console.log(loadingBar.current.clientWidth);
             setLoadingBarSize(loadingBar.current.clientWidth)
         }, [loadingBar])
 
@@ -228,12 +227,8 @@ const DemoPage = () => {
                 let timePassed = new Date().getTime() - startTime;
                 if(timePassed > delay) {
                     setResultImage(uploadImage);
-                    // setResultData([]); // <---- Use this to test empty state!
-                    // setResultData([
-                    //     {name: "Traffic light", color: "#1CF1FF", confidence: 79.9},
-                    //     {name: "Street sign", color: "#FF08C9", confidence: 97.2},
-                    //     {name: "Traffic light", color: "#36FF15", confidence: 84.0},
-                    // ]);
+                    setResultData({predictions: []}); // <---- Use this to test empty state!
+                    // setResultData({predictions: [{label: "Bike", confidence: 0.9898435}, {label: "Train", confidence: 0.45332423}]});
                     clearInterval(barInterval);
                 }
                 setTimePassed(timePassed);
@@ -283,11 +278,11 @@ const DemoPage = () => {
     const Results = () => {
         return (
             <PostUploadPanel>
-                <h1 className="text-slate-800 text-2xl font-bold tracking-wider xl:text-3xl 2xl:text-4xl">{resultData.length} {resultData.length > 1 ? <span className="text-slate-500">OBJECTS DETECTED</span> : <span className="text-slate-500">OBJECT DETECTED</span>}</h1>
+                <h1 className="text-slate-800 text-2xl font-bold tracking-wider xl:text-3xl 2xl:text-4xl">RESULTS</h1>
                 <table className="mt-4 xl:mt-6">
                     <thead>
                         <tr>
-                            {["", "OBJECT", "CONFIDENCE"].map((col, index) =>
+                            {["OBJECT", "CONFIDENCE"].map((col, index) =>
                                 <th className="xl:text-lg border-b-2 border-b-gray-100 text-left text-slate-400 font-bold tracking-wider py-3" key={"th-" + index}>
                                     {col}
                                 </th>
@@ -295,13 +290,10 @@ const DemoPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {resultData.map((o, index) =>
+                        {resultData.predictions.map((o, index) =>
                             <tr key={"tr-" + index}>
-                                <td className="py-3 border-b-2 border-b-gray-100">
-                                    <div className="w-6 h-6 rounded-sm" style={{"background-color": o.color}}></div>
-                                </td>
-                                <td className="xl:text-lg py-3 border-b-2 border-b-gray-100 text-slate-800">{o.className}</td>
-                                <td className="xl:text-lg text-slate-500 py-3 border-b-2 border-b-gray-100">{o.confidence}%</td>
+                                <td className="xl:text-lg py-3 border-b-2 border-b-gray-100 text-slate-800">{o.label}</td>
+                                <td className="xl:text-lg text-slate-500 py-3 border-b-2 border-b-gray-100">{(o.confidence*100).toFixed(1)}%</td>
                             </tr>
                         )}
                     </tbody>
@@ -323,8 +315,8 @@ const DemoPage = () => {
         <Page>
             {uploadImage === null ? <PreUpload /> : null}
             {uploadImage != null && resultData === null ? <Loading /> : null}
-            {uploadImage != null && resultData != null && resultData.length == 0 ? <EmptyResults /> : null}
-            {uploadImage != null && resultData != null && resultData.length > 0 ? <Results /> : null}
+            {uploadImage != null && resultData != null && resultData.predictions.length == 0 ? <EmptyResults /> : null}
+            {uploadImage != null && resultData != null && resultData.predictions.length > 0 ? <Results /> : null}
         </Page>
     );
 }

@@ -1,5 +1,6 @@
 from result import Object, Result
 from PIL import Image, ImageDraw
+from loadTensorFlowLobe import TFModel
 
 import random
 
@@ -13,14 +14,9 @@ def run(image):
     """
     original = image.copy()
 
-    # TEST -> Draw a white rectangle in the top left corner of the postprocessed image
+    downSize = image.resize((32, 32))
 
-    objs = []
+    model = TFModel()
+    outputs = model.predict(downSize)
 
-    i = random.randrange(2)
-    if i == 1:
-        draw = ImageDraw.Draw(image)  
-        draw.rectangle([(0, 0), (100, 100)], outline ="#00ff00", width=10) 
-        objs = [Object("Test Class", 37, "#00FF00", (0, 0, 100, 100))]
-
-    return Result(original, image, objs)
+    return Result(original, image, outputs)

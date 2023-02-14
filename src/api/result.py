@@ -50,7 +50,7 @@ class Result:
         """
         self.original = original
         self.postProcessed = postProcessed
-        self.annotations = [a for a in annotations if type(a) == Object]
+        self.annotations = annotations
 
     def json(self):
         """Exports the result as a dictionary
@@ -65,5 +65,5 @@ class Result:
         return {
             "original": "data:image/png;base64, " + originalB64.decode("utf-8"),
             "postProcessed": "data:image/png;base64, " + postProcessedB64.decode("utf-8"),
-            "annotations": [a.json() for a in self.annotations]
+            "annotations": self.annotations
         }

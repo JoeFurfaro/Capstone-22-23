@@ -15,7 +15,7 @@ const Navbar = () => {
       },
       {
         name: "GitHub",
-        href: "https://github.com",
+        href: "https://github.com/JoeFurfaro/Capstone-22-23",
         icon: null,
       },
     ]

@@ -30,10 +30,11 @@ const DemoPage = () => {
     const [resultImage, setResultImage] = useState(null);
     const [resultData, setResultData] = useState(null);
 
-    const startAnalyzing = (image) => {
+    const startAnalyzing = (image, type) => {
         setUploadImage(image);
 
-        axios.post(`/process`, {image:image})
+        console.log({image:image, type:type});
+        axios.post(`/process`, {image:image, type:type})
             .then(res => {
                 const response = res.data;
                 setResultImage(response.postProcessed);
@@ -83,7 +84,7 @@ const DemoPage = () => {
             }
 
             return (
-                <div className="w-full rounded-lg px-5 py-6 lg:py-4 bg-slate-100">
+                <div className="w-full rounded-lg px-5 py-6 bg-slate-100">
                     <h3 className="text-slate-400 sm:hidden md:block font-bold tracking-wider 2xl:text-xl xl:text-lg">
                         <i className="fa-solid fa-info-circle mr-2"></i>SUPPORTED OBJECT CLASSES
                     </h3>
@@ -128,7 +129,7 @@ const DemoPage = () => {
             return (
                 <div className="container mx-auto mt-12 grid md:grid-cols-3 grid-cols-1 sm:grid-cols-2 px-12 sm:px-3 md:px-0 gap-5 md:gap-x-12 md:gap-y-8 mb-24">
                     {presets.map((preset, index) =>
-                        <div key={"preset-" + index} className="2xl:h-72 xl:h-60 relative" onClick={(e) => startAnalyzing(getBase64Image(document.getElementById("preset-" + index)))}>
+                        <div key={"preset-" + index} className="2xl:h-72 xl:h-60 relative" onClick={(e) => startAnalyzing(getBase64Image(document.getElementById("preset-" + index)), "image/png")}>
                             <div className="rounded-lg w-full h-full opacity-0 hover:opacity-100 bg-mac-maroon bg-opacity-60 hover:cursor-pointer absolute left-0 flex flex-col place-content-center">
                                 <h1 className="text-white font-bold text-center xl:text-lg">Choose This Image</h1>
                             </div>
@@ -163,7 +164,7 @@ const DemoPage = () => {
             const reader = new FileReader();
     
             reader.addEventListener("load", () => {
-                startAnalyzing(reader.result);
+                startAnalyzing(reader.result, file.type);
             }, false);
     
             reader.readAsDataURL(file);
@@ -171,7 +172,7 @@ const DemoPage = () => {
 
         return (
             <>
-                <div className="bg-white container mx-auto sm:rounded-lg shadow-lg mt-20 sm:mt-24 lg:mt-0 py-8 px-6 sm:px-12 gap-2 sm:gap-8 2xl:px-20 xl:px-16 flex sm:flex-row flex-col">
+                <div className="bg-white container mx-auto sm:rounded-lg shadow-lg mt-20 sm:mt-24 lg:mt-0 py-8 lg:py-12 xl:py-24 px-6 sm:px-12 gap-2 sm:gap-8 2xl:px-20 xl:px-16 flex sm:flex-row flex-col">
                     <div className="w-full sm:w-6/12 flex flex-col place-content-center">
                         <h1 className="text-mac-maroon text-xl sm:text-lg md:text-xl font-bold tracking-wider xl:text-3xl 2xl:text-4xl">UPLOAD AN INPUT IMAGE</h1>
                         <p className="text-slate-700 mt-3 mb-3 md:mt-6 md:mb-6 xl:text-lg">Choose an input file that meets the following criteria:</p>
@@ -196,7 +197,7 @@ const DemoPage = () => {
 
     const PostUploadPanel = ({children}) => {
         return (
-            <div className="bg-white container mx-auto sm:rounded-lg shadow-lg py-8 px-12 flex flex-col-reverse lg:flex-row gap-8 xl:px-16 2xl:px-20 lg:mt-0 mt-20 sm:mt-24 mb-24">
+            <div className="bg-white container mx-auto sm:rounded-lg shadow-lg py-8 lg:py-12 xl:py-24 px-12 flex flex-col-reverse lg:flex-row gap-8 xl:px-16 2xl:px-20 lg:mt-0 mt-20 sm:mt-24 mb-24">
                 <div className="2xl:w-5/12 w-full lg:w-6/12 flex flex-col place-content-center">
                     {children}
                 </div>
@@ -227,8 +228,6 @@ const DemoPage = () => {
                 let timePassed = new Date().getTime() - startTime;
                 if(timePassed > delay) {
                     setResultImage(uploadImage);
-                    setResultData({predictions: []}); // <---- Use this to test empty state!
-                    // setResultData({predictions: [{label: "Bike", confidence: 0.9898435}, {label: "Train", confidence: 0.45332423}]});
                     clearInterval(barInterval);
                 }
                 setTimePassed(timePassed);
@@ -302,9 +301,6 @@ const DemoPage = () => {
                 <div className="flex sm:flex-row flex-col mt-12 gap-2">
                     <div>
                         <Button href="/demo" text="TRY AGAIN" icon="fa-circle-chevron-right" iconSide="right" />
-                    </div>
-                    <div>
-                        <Button href="/demo" text="DOWNLOAD RESULT" primary={false} icon="fa-download" iconSide="left" />
                     </div>
                 </div>
             </PostUploadPanel>

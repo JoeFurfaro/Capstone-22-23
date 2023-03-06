@@ -15,9 +15,25 @@ def runImageNet():
     and returning a single result including the original image, a postprocessed
     image, and a list of detected objects and their locations
     """
+    # File type check
+    mimeType = request.json["type"]
+    if mimeType not in ("image/png", "image/jpeg", "image/jpg"):
+        resp = jsonify({})
+        resp.status = 415
+        return resp
+
+    # Open the image
     image = request.json["image"]
     noPrefix = image.split(",")[1]
-    im = Image.open(BytesIO(base64.b64decode(noPrefix)))
+    decoded = base64.b64decode(noPrefix)
+    im = Image.open(BytesIO(decoded))
+
+    # Aspect ratio check
+    width, height = im.size
+    if width / height > 2 or height / width > 2:
+        resp = jsonify({})
+        resp.status = 400
+        return resp
 
     result = run(im).json() # Run the image through the model
     resp = jsonify(result) # Convert result to JSON
